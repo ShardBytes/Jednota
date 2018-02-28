@@ -10,7 +10,7 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class TouchController : MonoBehaviour {
 
-	public GameObject cube;
+	public GameObject cube, torus;
 	public Material mat_a, mat_b;
 	private bool touched;
 
@@ -19,6 +19,11 @@ public class TouchController : MonoBehaviour {
 	private GameObject getCurrentCube()
 	{
 		return GameObject.Find("Cube#" + cubeIterator.ToString());
+	}
+
+	private Vector3 getPosByTouch(Touch t)
+	{
+		return Camera.main.ScreenToWorldPoint(new Vector3(t.position.x + Screen.width / 10, t.position.y, 10));
 	}
 
 	void Start () {}
@@ -31,9 +36,9 @@ public class TouchController : MonoBehaviour {
 			if (t.phase == TouchPhase.Began && !touched)
 			{
 				touched = true;
-				Vector3 newPos = Camera.main.ScreenToWorldPoint(new Vector3(t.position.x, t.position.y, 10));
+				Vector3 newPos = getPosByTouch(t);
 				newPos.z = 0; // fix z pos
-				if (newPos.y > 0)
+				if (newPos.y > torus.transform.position.y) // if its higher than the torus
 				{
 					GameObject newCube = Instantiate(cube, newPos, Quaternion.identity);
 					newCube.name = "Cube#" + cubeIterator.ToString();
@@ -42,11 +47,11 @@ public class TouchController : MonoBehaviour {
 			}
 			else if (t.phase == TouchPhase.Moved && touched)
 			{
-				Vector3 newPos = Camera.main.ScreenToWorldPoint(new Vector3(t.position.x, t.position.y, 10));
+				Vector3 newPos = getPosByTouch(t);
 				newPos.z = 0;
 				getCurrentCube().transform.position = newPos;
 			}
-			else if (t.phase == TouchPhase.Ended && touched)
+			else if ( (t.phase == TouchPhase.Ended || t.phase == TouchPhase.Canceled) && touched)
 			{
 				GameObject c = getCurrentCube();
 				Debug.Log("CREATED " + c.name);
