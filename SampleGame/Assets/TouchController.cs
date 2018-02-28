@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿/*
+ * Single touch controller script by Plasmoxy
+ * 
+ * */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,10 +16,12 @@ public class TouchController : MonoBehaviour {
 
 	private long cubeIterator;
 
-	// Use this for initialization
-	void Start () {
-		
+	private GameObject getCurrentCube()
+	{
+		return GameObject.Find("Cube#" + cubeIterator.ToString());
 	}
+
+	void Start () {}
 	
 	void FixedUpdate () {
 
@@ -25,6 +32,7 @@ public class TouchController : MonoBehaviour {
 			{
 				touched = true;
 				Vector3 newPos = Camera.main.ScreenToWorldPoint(new Vector3(t.position.x, t.position.y, 10));
+				newPos.z = 0; // fix z pos
 				if (newPos.y > 0)
 				{
 					GameObject newCube = Instantiate(cube, newPos, Quaternion.identity);
@@ -32,14 +40,17 @@ public class TouchController : MonoBehaviour {
 					newCube.GetComponent<Renderer>().material = Random.value > 0.5f ? mat_a : mat_b;
 				}
 			}
-			/*else if (t.phase == TouchPhase.Moved && touched)
+			else if (t.phase == TouchPhase.Moved && touched)
 			{
 				Vector3 newPos = Camera.main.ScreenToWorldPoint(new Vector3(t.position.x, t.position.y, 10));
-				newCube.transform.position = newPos; // if has a cube reference
-			}*/
+				newPos.z = 0;
+				getCurrentCube().transform.position = newPos;
+			}
 			else if (t.phase == TouchPhase.Ended && touched)
 			{
-				Debug.Log("CREATED Cube#" + cubeIterator.ToString());
+				GameObject c = getCurrentCube();
+				Debug.Log("CREATED " + c.name);
+				c.GetComponent<Rigidbody>().useGravity = true; // enable gravity after releasing cube
 				cubeIterator++;
 				touched = false;
 			}
