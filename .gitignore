@@ -35,6 +35,5 @@ sysinfo.txt
 *.unitypackage
 
 # other weird stuff
-NotCliccBee/*
 *.lock
 SampleGame/.vs
