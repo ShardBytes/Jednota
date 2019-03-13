@@ -1,0 +1,15 @@
+﻿<Properties StartupConfiguration="{7D098825-1966-41E2-1E5C-EC88DC0E6F43}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/SpaceScene/Scripts/Rocket.cs">
+    <Files>
+      <File FileName="Assets/SpaceScene/Scripts/CameraController.cs" Line="23" Column="11" />
+      <File FileName="Assets/SpaceScene/Scripts/Rocket.cs" Line="30" Column="78" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
