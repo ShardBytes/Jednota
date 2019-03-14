@@ -6,14 +6,36 @@ public class Rocket : MonoBehaviour {
 
     private Rigidbody body;
     private bool areParticlesPlaying = false;
+    private float bulletTimer;
 
     public ParticleSystem rightParticles;
     public ParticleSystem leftParticles;
+    public float bulletsPerSecond = 1.0f;
+
+    public Bullet bulletModel;
+    public int shootingForce = 1000;
 
     void Start() {
         body = GetComponent<Rigidbody>();
+        bulletTimer = 1.0f / bulletsPerSecond;
         rightParticles.Stop();
         leftParticles.Stop();
+
+    }
+
+    void Update() {
+        if(Input.GetButton/*Down*/("Fire1")) {
+            if(bulletTimer < 0) {
+                Vector3 cannonOffset = transform.forward * 1.1501f;
+                Bullet bullet = Instantiate(bulletModel, transform.position + cannonOffset, transform.rotation); //instantiate bullet at the position of rocket
+                bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * shootingForce); //shoot the bullet
+                bullet.StartDestroyTimer(); //destroy the bullet after a few seconds
+                bulletTimer = 1.0f / bulletsPerSecond;
+
+            }
+
+        }
+        bulletTimer -= Time.deltaTime;
 
     }
 
